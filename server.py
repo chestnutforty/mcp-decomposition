@@ -17,12 +17,10 @@ dependencies needed to answer the main question.
 
 class SubSubquestion(BaseModel):
     question: str
-    rationale: str
 
 class Subqestion(BaseModel):
     subquestions: list[SubSubquestion]
     question: str
-    rationale: str
     
 class DecompositionResult(BaseModel):
     original_question: str
@@ -130,26 +128,19 @@ Output the subquestions as a nested list."""
 
     user_prompt = f"""Question: {question}"""
 
-    response = client.responses.create(
+    response = client.responses.parse(
         model="gpt-5.2",
         reasoning={"effort": "high"},
         input=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        text={
-            "format": {
-                "type": "json_schema",
-                "name": "decomposition_result",
-                "schema": DecompositionResult.model_json_schema(),
-                "strict": True,
-            }
-        },
+        text_format=DecompositionResult,
     )
 
-    result = DecompositionResult.model_validate_json(response.output_text)
+    result = response.output_parsed
 
-    lines = ["Subquestion Decomposition:", ""]
+    lines = []
     for i, sq in enumerate(result.subquestions, 1):
         lines.append(f"{i}. {sq.question}")
         for j, subsq in enumerate(sq.subquestions, 1):
