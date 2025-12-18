@@ -8,9 +8,8 @@ from pydantic import BaseModel
 mcp = FastMCP(
     name="decomposition",
     instructions=r"""
-Question decomposition service that breaks down complex forecasting questions into simpler,
-more tractable subquestions. Uses advanced reasoning to identify the key components and
-dependencies needed to answer the main question.
+Question decomposition service that breaks down forecasting questions into subquestions that can be forecasted independently. Uses advanced reasoning to identify the key components and
+dependencies needed to answer the main question. Use the `decompose_question` tool to break the question into subquestions right when you start reasoning.
 """.strip(),
 )
 
@@ -30,7 +29,7 @@ class DecompositionResult(BaseModel):
 @mcp.tool(
     name="decompose_question",
     title="Decompose Forecasting Question",
-    description="Decomposes a complex forecasting question into simpler subquestions that can be forecasted independently.",
+    description="Decomposes a forecasting question into simpler subquestions that can be forecasted independently.",
     tags={"backtesting_supported"},
     exclude_args=["cutoff_date"],
 )
