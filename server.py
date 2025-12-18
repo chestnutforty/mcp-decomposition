@@ -81,6 +81,7 @@ Scenario decomposition:
 
 <important_reminders>
 - Do not include questions like "Will the resolution criteria be met..?"
+- Do not include numbering with the question text
 </important_reminders>
 
 <example>
@@ -144,6 +145,6 @@ Output the subquestions as a nested list."""
     for i, sq in enumerate(result.subquestions, 1):
         lines.append(f"{i}. {sq.question}")
         for j, subsq in enumerate(sq.subquestions, 1):
-            lines.append(f"   {j}. {subsq.question}")
+            lines.append(f"    {i}.{j}. {subsq.question}")
 
     return "\n".join(lines)
