@@ -130,7 +130,7 @@ Output the subquestions as a nested list."""
 
     response = client.responses.parse(
         model="gpt-5.2",
-        reasoning={"effort": "high"},
+        reasoning={"effort": "medium"},
         input=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
